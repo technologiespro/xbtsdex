@@ -1,7 +1,7 @@
 {
-  "name": "btsdex",
+  "name": "xbtsdex",
   "version": "0.7.3",
-  "description": "Package for work with BitShares DEX",
+  "description": "Package for work with BitShares XBTS DEX",
   "main": "lib",
   "bin": {
     "btsdex": "./cli.js"
