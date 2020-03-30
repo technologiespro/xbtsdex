@@ -512,6 +512,24 @@ class BitShares {
   assetReserve = async (...args) => {
     return this.sendOperation(await this.assetReserveOperation(...args));
   };
+
+
+  accountRegisterOperation = async (options) => {
+
+    let params = {
+      name: options.name,
+      owner: options.owner,
+      active: options.active,
+      registrar_account: options.registrar_account || 'xbtsx',
+      referrer_account: options.referrer_account || 'xbtsx',
+      referrer_percent: 30,
+      broadcast: true,
+    };
+
+    return { account_register: params };
+  };
+
+
 }
 
 Event.init(BitShares.connect);
