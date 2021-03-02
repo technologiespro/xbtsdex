@@ -8,12 +8,9 @@
   },
   "scripts": {
     "dev": "nodemon --exec yarn build --watch src",
-    "prebuild": "rm -rf lib",
     "build": "babel src -d lib",
     "postbuild": "yarn browserify",
-    "prebrowserify": "rm -rf build",
     "browserify": "browserify lib/index.js --standalone BitShares -o build/btsdex.js -d",
-    "postbrowserify": "minify build/btsdex.js -o build/btsdex.min.js",
     "test": "mocha --timeout 10000"
   },
   "keywords": [
