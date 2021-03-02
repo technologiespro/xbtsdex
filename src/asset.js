@@ -1,7 +1,12 @@
-import { database } from "btsdex-api";
+import { database, asset } from "btsdex-api";
 
 class Asset {
   static map = {};
+
+  static async holders(_symbol, from = 0, limit = 100) {
+    let symbol = _symbol.toUpperCase();
+    return asset.get_asset_holders(symbol, from, limit);
+  }
 
   static async getAsset(_symbol) {
     let symbol = _symbol.toUpperCase();
@@ -22,16 +27,16 @@ class Asset {
   static async id(id) {
     if (!isNaN(id)) id = `1.3.${id}`;
 
-    let asset = Object.keys(this.map).find(symbol => this.map[symbol].id == id);
+    let Asset = Object.keys(this.map).find(symbol => this.map[symbol].id === id);
 
-    if (asset) return this.map[asset];
+    if (Asset) return this.map[Asset];
 
-    asset = (await database.getAssets([id]))[0];
+    Asset = (await database.getAssets([id]))[0];
 
-    if (!asset) throw new Error(`Not found asset by id ${id}!`);
+    if (!Asset) throw new Error(`Not found asset by id ${id}!`);
 
-    this.map[asset.symbol] = new this(asset);
-    return this.map[asset.symbol];
+    this.map[Asset.symbol] = new this(Asset);
+    return this.map[Asset.symbol];
   }
 
   static async fromParam(param) {
