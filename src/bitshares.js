@@ -28,7 +28,7 @@ const getExpireDate = () => {
 };
 
 class BitShares {
-    static node = "wss://bitshares.openledger.info/ws";
+    static node = "wss://public.xbts.io/ws";
     static autoreconnect = true;
     static logger = console;
 
@@ -187,6 +187,10 @@ class BitShares {
         );
     }
 
+    static async holders(symbol, from = 0, limit = 100) {
+        return await BitShares.assets.holders(symbol, from, limit)
+    }
+
     static async tradeHistory(
         quoteSymbol,
         baseSymbol,
@@ -274,7 +278,7 @@ class BitShares {
         expiration = getExpireDate(),
         extensions = []
     ) => {
-        if (buyAmount == 0 || sellAmount == 0) throw new Error("Amount equal 0!");
+        if (buyAmount === 0 || sellAmount === 0) throw new Error("Amount equal 0!");
         await this.initPromise;
 
         let buyAsset = await BitShares.assets[buySymbol],
@@ -319,7 +323,7 @@ class BitShares {
                     .toString()
             );
 
-        if (buyAmount == 0 || sellAmount == 0) throw new Error("Amount equal 0!");
+        if (buyAmount === 0 || sellAmount === 0) throw new Error("Amount equal 0!");
 
         let params = {
             fee: this.feeAsset.toParam(),
