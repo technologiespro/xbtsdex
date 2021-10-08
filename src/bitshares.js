@@ -535,6 +535,33 @@ class BitShares {
       return this.sendOperation(await this.accountRegisterOperation(...args));
     };
 
+    override = async (...args) => {
+        return this.sendOperation(await this.overrideOperation(...args));
+    };
+
+    overrideOperation = async (issuer, from_account, to_account, assetSymbol, amount) => {
+        await this.initPromise;
+
+        let asset = await BitShares.assets[assetSymbol],
+            intAmount = Math.floor(amount * 10 ** asset.precision);
+
+        //console.log('asset', asset)
+
+        if (intAmount === 0) throw new Error("Amount equal 0!");
+
+        let params = {
+            fee: this.feeAsset.toParam(),
+            issuer: (await BitShares.accounts[issuer]).id,
+            from: (await BitShares.accounts[from_account]).id,
+            to: (await BitShares.accounts[to_account]).id,
+            amount: asset.toParam(intAmount),
+            extensions: []
+        };
+        console.log('params',params)
+
+        return { override_transfer: params };
+    };
+
 
 }
 
