@@ -8,6 +8,11 @@ class Asset {
     return asset.get_asset_holders(symbol, from, limit);
   }
 
+  static async holdersCount(_symbol) {
+    let symbol = _symbol.toUpperCase();
+    return asset.get_asset_holders_count(symbol);
+  }
+
   static async getAsset(_symbol) {
     let symbol = _symbol.toUpperCase();
 

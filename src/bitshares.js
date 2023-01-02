@@ -191,6 +191,10 @@ class BitShares {
         return await BitShares.assets.holders(symbol, from, limit)
     }
 
+    static async holdersCount(symbol) {
+        return await BitShares.assets.holdersCount(symbol)
+    }
+
     static async tradeHistory(
         quoteSymbol,
         baseSymbol,
