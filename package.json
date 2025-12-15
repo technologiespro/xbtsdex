@@ -1,23 +1,31 @@
 {
-  "name": "xbtsdex",
-  "version": "0.7.3",
-  "description": "Package for work with BitShares XBTS DEX",
+  "name": "btsdex",
+  "version": "0.7.11",
+  "description": "Package for work with BitShares DEX",
   "main": "lib",
   "bin": {
     "btsdex": "./cli.js"
   },
   "scripts": {
     "dev": "nodemon --exec yarn build --watch src",
+    "prebuild": "rm -rf lib",
     "build": "babel src -d lib",
     "postbuild": "yarn browserify",
+    "prebrowserify": "rm -rf build",
     "browserify": "browserify lib/index.js --standalone BitShares -o build/btsdex.js -d",
-    "test": "mocha --timeout 10000"
+    "postbrowserify": "minify build/btsdex.js -o build/btsdex.min.js",
+    "test": "mocha --timeout 10000",
+    "style": "prettier --check src",
+    "style-all": "prettier --check src packages/api/src packages/ecc/src packages/serializer/src"
   },
   "keywords": [
     "bitshares"
   ],
   "author": "scientistnik",
   "license": "MIT",
+  "prettier": {
+    "arrowParens": "avoid"
+  },
   "dependencies": {
     "@babel/runtime": "^7.7.4",
     "assert": "^1.5.0",
@@ -25,7 +33,7 @@
     "bignumber.js": "^7.2.1",
     "btsdex-api": "^0.7.2",
     "btsdex-ecc": "^0.7.0",
-    "btsdex-serializer": "^0.7.1",
+    "btsdex-serializer": "^0.7.9",
     "bytebuffer": "^5.0.1",
     "lzma": "^2.3.2",
     "safe-buffer": "^5.2.0"
@@ -39,7 +47,8 @@
     "babel-minify": "^0.5.1",
     "browserify": "^16.5.0",
     "dotenv": "^6.0.0",
-    "mocha": "^5.2.0",
-    "nodemon": "^1.19.4"
+    "mocha": "^9.2.1",
+    "nodemon": "^2.0.15",
+    "prettier": "2.6.1"
   }
 }
