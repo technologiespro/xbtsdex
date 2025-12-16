@@ -199,6 +199,70 @@ class BitShares {
     return this.db.get_dynamic_global_properties();
   }
 
+  static getGlobalProperties() {
+    return this.db.get_global_properties();
+  }
+
+  static getBlock(blockNum) {
+    return this.db.get_block(blockNum);
+  }
+
+  static getOrderBook(baseId, quoteId, limit = 50) {
+    return this.db.get_order_book(baseId, quoteId, limit);
+  }
+
+  static getLimitOrders(baseId, quoteId, limit = 100) {
+    return this.db.get_limit_orders(baseId, quoteId, limit);
+  }
+
+  static getSettleOrders(baseId, quoteId, limit = 100) {
+    return this.db.get_settle_orders(baseId, quoteId, limit);
+  }
+
+  static getMarginPositions(accountId) {
+    return this.db.get_margin_positions(accountId);
+  }
+
+  static getCollateralBids(baseId, quoteId, limit = 100) {
+    return this.db.get_collateral_bids(baseId, quoteId, limit);
+  }
+
+  static getWitnesses(witnessIds) {
+    return this.db.get_witnesses(witnessIds);
+  }
+    
+  static getCommitteeMembers(memberIds) {
+    return this.db.get_committee_members(memberIds);
+  }
+
+  static getVestingBalances(accountId) {
+    return this.db.get_vesting_balances(accountId);
+  }
+
+  static getWithdrawPermissionsByAccount(accountId) {
+    return this.db.get_withdraw_permissions_by_account(accountId);
+  }
+
+  static getProposedTransactions(accountId) {
+    return this.db.get_proposed_transactions(accountId);
+  }
+
+  static getShortOrders(baseId, quoteId, limit = 100) {
+    return this.db.get_short_orders(baseId, quoteId, limit);
+  }
+
+  static getLiquidityPools(baseId, quoteId, limit = 100) {
+    return this.db.get_liquidity_pools(baseId, quoteId, limit);
+  }
+
+  static getWorkerProposals() {
+    return this.db.get_worker_proposals();
+  }
+    
+  static getBudgetRecords() {
+    return this.db.get_budget_records();
+  }
+
   static getAccountBalances(accountId, assets = []) {
     return this.db.get_account_balances(accountId, assets);
   }
@@ -230,7 +294,6 @@ class BitShares {
   static getNodeList() {
     return WS_NODE_LIST;
   }
-
   static async tradeHistory(
     quoteSymbol,
     baseSymbol,
@@ -244,22 +307,6 @@ class BitShares {
       bucketSeconds,
       startDate.toISOString().slice(0, -5),
       stopDate.toISOString().slice(0, -5)
-    );
-  }
-
-  static async getLimitOrders(quoteSymbol, baseSymbol, limit = 50) {
-    return database.getLimitOrders(
-      (await BitShares.assets[quoteSymbol]).id,
-      (await BitShares.assets[baseSymbol]).id,
-      limit > 100 ? 100 : limit
-    );
-  }
-
-  static async getOrderBook(quoteSymbol, baseSymbol, limit = 50) {
-    return database.getOrderBook(
-      (await BitShares.assets[quoteSymbol]).id,
-      (await BitShares.assets[baseSymbol]).id,
-      limit > 50 ? 50 : limit
     );
   }
 
