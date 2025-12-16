@@ -30,7 +30,7 @@
     "assert": "^1.5.0",
     "bigi": "^1.4.2",
     "bignumber.js": "^7.2.1",
-    "btsdex-api": "^0.7.2",
+    "btsdex-api": "file:packages/api",
     "btsdex-ecc": "^0.7.0",
     "btsdex-serializer": "^0.7.9",
     "bytebuffer": "^5.0.1",

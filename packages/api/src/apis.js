@@ -4,8 +4,6 @@ export const METHODS_WITH_CALLBACK = [
   "subscribe_to_market",
   "set_block_applied_callback",
   "broadcast_transaction_with_callback",
-  "subscribe_to_object",
-  "unsubscribe_from_object",
 ];
 
 export const APIs = {
@@ -13,8 +11,6 @@ export const APIs = {
     id: null,
     name: "database",
     methods: [
-      "subscribe_to_object",
-      "unsubscribe_from_object",
       /* many function names */
     ],
   },
