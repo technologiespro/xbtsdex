@@ -3,6 +3,7 @@ import Asset from "./asset.js";
 import Account from "./account.js";
 import Fees from "./fees.js";
 import Transaction from "./transaction";
+import TransactionBuilder from "./transaction/TransactionBuilder.js";
 import { checkNodes, checkNode } from "./NodeManager.js";
 import { WS_NODE_LIST } from "./nodes.js";
 import { LZMA as lzma } from "lzma/src/lzma-d-min";
@@ -56,9 +57,9 @@ class BitShares {
   static call = call;
 
   static newTx = Transaction.newTx;
-  static PrivateKey = PrivateKey; // нужны ли эти экспорты?
-  static Aes = Aes; // нужны ли эти экспорты?
-  static TransactionBuilder = Transaction.TransactionBuilder; // нужны ли эти экспорты?
+  static PrivateKey = PrivateKey;
+  static Aes = Aes;
+  static TransactionBuilder = TransactionBuilder;
 
   static assets = Asset;
   static accounts = Account;
