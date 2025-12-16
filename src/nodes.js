@@ -32,12 +32,12 @@ export const WS_NODE_LIST = [
     operator: 'Witness: iobanker-core',
     contact: 'email:admin@iobanker.com',
   },
-  // {
-  //   url: 'ws://192.168.31.56:8090',
-  //   location: 'Locally Main',
-  // },
-  // {
-  //   url: 'ws://localhost:8090',
-  //   location: 'Locally',
-  // },
+   {
+     url: 'ws://192.168.31.56:8090',
+     location: 'Locally Main',
+   },
+   {
+     url: 'ws://localhost:8090',
+     location: 'Locally',
+   },
 ];
