@@ -4,13 +4,13 @@
   "description": "Package for work with BitShares XBTS DEX",
   "main": "lib",
   "bin": {
-    "btsdex": "./cli.js"
+    "xbtsdex": "./cli.js"
   },
   "scripts": {
     "dev": "nodemon --exec yarn build --watch src",
     "build": "babel src -d lib",
     "postbuild": "yarn browserify",
-    "browserify": "browserify lib/index.js --standalone BitShares -o build/btsdex.js -d",
+    "browserify": "browserify lib/index.js --standalone BitShares -o build/xbtsdex.js -d",
     "test": "mocha --timeout 10000"
   },
   "keywords": [
