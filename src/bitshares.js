@@ -283,6 +283,10 @@ class BitShares {
     return this.db.get_objects(objectIds);
   }
 
+  static lookupAccounts(startChar, limit = 10) {
+    return this.db.lookup_accounts(startChar, limit);
+  }
+
   static lookupAssetSymbols(symbols) {
     return this.db.lookup_asset_symbols(symbols);
   }
