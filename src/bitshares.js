@@ -207,6 +207,26 @@ class BitShares {
     return this.db.get_full_accounts(accounts, subscribe);
   }
 
+  static getAccounts(accountIds) {
+    return this.db.get_accounts(accountIds);
+  }
+
+  static getAssets(assetIds) {
+    return this.db.get_assets(assetIds);
+  }
+
+  static getObjects(objectIds) {
+    return this.db.get_objects(objectIds);
+  }
+
+  static lookupAssetSymbols(symbols) {
+    return this.db.lookup_asset_symbols(symbols);
+  }
+
+  static getAccountHistory(accountId, stop = "1.11.0", limit = 100, start = "1.11.0") {
+    return this.history.get_account_history(accountId, stop, limit, start);
+  }
+
   static getNodeList() {
     return WS_NODE_LIST;
   }
