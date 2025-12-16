@@ -287,6 +287,18 @@ class BitShares {
     return this.db.get_objects(objectIds);
   }
 
+  // Метод для подписки на обновления конкретных объектов (например, mto_id тикеров)
+  static async subscribeToObjects(objectIds) {
+    // Вызываем get_objects с параметром subscribe=true, чтобы подписаться на объекты
+    return this.db.get_objects(objectIds, true);
+  }
+
+  // Метод для отписки от обновлений конкретных объектов
+  static async unsubscribeFromObjects(objectIds) {
+    // Вызываем get_objects с параметром subscribe=false, чтобы отписаться от объектов
+    return this.db.get_objects(objectIds, false);
+  }
+
   static lookupAccounts(startChar, limit = 10) {
     return this.db.lookup_accounts(startChar, limit);
   }
@@ -338,16 +350,8 @@ class BitShares {
     return database.subscribeToMarket(callback, baseId, quoteId);
   }
 
-  static async subscribeToTicker(tickerId, callback) {
-    // Подписка на конкретный тикер (mto_id) для получения обновлений рынка в реальном времени
-    // mto_id - это объект вида "5.2.x" который содержит данные тикера
-    return database.subscribeToObject(tickerId, callback);
-  }
-
-  static async unsubscribeFromTicker(tickerId, callback) {
-    // Отписка от конкретного тикера
-    return database.unsubscribeFromObject(tickerId, callback);
-  }
+  // Для получения обновлений тикеров используем общий механизм подписки
+  // через set_subscribe_callback и фильтрацию обновлений в блоках
 
   static async unsubscribeFromMarket(callback, baseId, quoteId) {
     // xbtsdex не предоставляет прямой метод отписки от конкретного рынка
