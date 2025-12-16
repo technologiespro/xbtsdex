@@ -3,6 +3,8 @@ import Asset from "./asset.js";
 import Account from "./account.js";
 import Fees from "./fees.js";
 import Transaction from "./transaction";
+import { checkNodes, checkNode } from "./NodeManager.js";
+import { WS_NODE_LIST } from "./nodes.js";
 import { LZMA as lzma } from "lzma/src/lzma-d-min";
 import BigNumber from "bignumber.js";
 import { PrivateKey, PublicKey, Aes, key } from "btsdex-ecc";
@@ -18,7 +20,14 @@ import {
   asset,
   orders,
   call,
+  setNotifyStatusCallback
 } from "btsdex-api";
+
+// Глобально настраиваем обработчик статуса из btsdex-api,
+// чтобы он транслировал события в нашу систему событий.
+setNotifyStatusCallback(status => {
+  Event.statusNotify(status);
+});
 
 const getExpireDate = () => {
   let d = new Date();
@@ -31,6 +40,9 @@ class BitShares {
   static node = "wss://public.xbts.io/ws";
   static autoreconnect = true;
   static logger = console;
+
+  static checkNodes = checkNodes;
+  static checkNode = checkNode;
 
   static subscribe = Event.subscribe;
 
@@ -69,7 +81,7 @@ class BitShares {
   }
 
   static async reconnect(node, autoreconnect) {
-    BitShares.chain = await connect(node, undefined, autoreconnect);
+    BitShares.chain = await connect(node, 5000, autoreconnect);
     setAddressPrefix(BitShares.chain.addressPrefix);
     BitShares.node = node;
 
@@ -181,6 +193,22 @@ class BitShares {
       baseSymbol.toUpperCase(),
       quoteSymbol.toUpperCase()
     );
+  }
+
+  static getDynamicGlobalProperties() {
+    return this.db.get_dynamic_global_properties();
+  }
+
+  static getAccountBalances(accountId, assets = []) {
+    return this.db.get_account_balances(accountId, assets);
+  }
+
+  static getFullAccounts(accounts, subscribe = true) {
+    return this.db.get_full_accounts(accounts, subscribe);
+  }
+
+  static getNodeList() {
+    return WS_NODE_LIST;
   }
 
   static async tradeHistory(

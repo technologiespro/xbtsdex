@@ -10,6 +10,7 @@ class Event {
     );
     this.bindAccount = this.subscribeAccount.bind(this);
     this.account = new this(this.block.subscribe, this.bindAccount);
+    this.status = new this();
     //this.market = new this(this.connected.subscribe.bind(this.connected))
   }
 
@@ -22,6 +23,14 @@ class Event {
       };
     else this.connected.map.all.events.push(undefined);
     this.connected.notify();
+  }
+
+  static statusNotify(status) {
+    if (!this.status.map.all) {
+      this.status.map.all = { subs: new Set(), events: [] };
+    }
+    this.status.map.all.events = [status]; // Всегда перезаписываем последним статусом
+    this.status.notify();
   }
 
   static async resubscribe() {

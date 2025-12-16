@@ -157,6 +157,13 @@ if (process.argv.includes("--account")) {
     );
     mutableStdout.muted = true;
   }, showError);
+} else if (process.argv.includes("--check-nodes")) {
+  console.log("Checking all nodes...");
+  const nodeList = BitShares.getNodeList();
+  BitShares.checkNodes(nodeList).then(checkedNodes => {
+    console.log("Node check complete:");
+    console.table(checkedNodes);
+  });
 } else {
   const r = repl.start({ prompt: "> " });
   initializeContext(r.context);
