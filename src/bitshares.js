@@ -319,6 +319,16 @@ class BitShares {
     );
   }
 
+  static async getMarketHistory(baseId, quoteId, bucketSize, start, stop) {
+    return history.getMarketHistory(
+      baseId,
+      quoteId,
+      bucketSize,
+      start,
+      stop
+    );
+  }
+
   static async getTradeHistory(baseSymbol, quoteSymbol, start, stop, limit) {
     return database.getTradeHistory(
       (await BitShares.assets[baseSymbol]).id,
