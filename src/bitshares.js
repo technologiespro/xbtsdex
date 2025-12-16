@@ -302,6 +302,7 @@ class BitShares {
   static getNodeList() {
     return WS_NODE_LIST;
   }
+
   static async tradeHistory(
     quoteSymbol,
     baseSymbol,
@@ -315,6 +316,16 @@ class BitShares {
       bucketSeconds,
       startDate.toISOString().slice(0, -5),
       stopDate.toISOString().slice(0, -5)
+    );
+  }
+
+  static async getTradeHistory(baseSymbol, quoteSymbol, start, stop, limit) {
+    return database.getTradeHistory(
+      (await BitShares.assets[baseSymbol]).id,
+      (await BitShares.assets[quoteSymbol]).id,
+      start,
+      stop,
+      limit
     );
   }
 
