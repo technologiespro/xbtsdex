@@ -6,9 +6,7 @@
   "scripts": {
     "prebuild": "rm -rf lib build",
     "build": "babel src -d lib",
-    "postbuild": "yarn browserify && yarn minify",
     "browserify": "browserify lib/index.js --standalone btsdex-api -o build/btsdex-api.js -d",
-    "minify": "minify build/btsdex-api.js -o  build/btsdex-api.min.js",
     "dev": "nodemon --exec yarn build --watch src",
     "test": "mocha --require @babel/register",
     "style": "prettier --check src"
