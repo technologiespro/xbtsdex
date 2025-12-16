@@ -56,6 +56,9 @@ class BitShares {
   static call = call;
 
   static newTx = Transaction.newTx;
+  static PrivateKey = PrivateKey; // нужны ли эти экспорты?
+  static Aes = Aes; // нужны ли эти экспорты?
+  static TransactionBuilder = Transaction.TransactionBuilder; // нужны ли эти экспорты?
 
   static assets = Asset;
   static accounts = Account;
