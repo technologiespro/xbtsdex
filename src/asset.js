@@ -1,17 +1,7 @@
-import { database, asset } from "btsdex-api";
+import { database } from "btsdex-api";
 
 class Asset {
   static map = {};
-
-  static async holders(_symbol, from = 0, limit = 100) {
-    let symbol = _symbol.toUpperCase();
-    return asset.get_asset_holders(symbol, from, limit);
-  }
-
-  static async holdersCount(_symbol) {
-    let symbol = _symbol.toUpperCase();
-    return asset.get_asset_holders_count(symbol);
-  }
 
   static async getAsset(_symbol) {
     let symbol = _symbol.toUpperCase();
