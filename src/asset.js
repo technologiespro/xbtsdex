@@ -1,17 +1,7 @@
-import { database, asset } from "btsdex-api";
+import { database } from "btsdex-api";
 
 class Asset {
   static map = {};
-
-  static async holders(_symbol, from = 0, limit = 100) {
-    let symbol = _symbol.toUpperCase();
-    return asset.get_asset_holders(symbol, from, limit);
-  }
-
-  static async holdersCount(_symbol) {
-    let symbol = _symbol.toUpperCase();
-    return asset.get_asset_holders_count(symbol);
-  }
 
   static async getAsset(_symbol) {
     let symbol = _symbol.toUpperCase();
@@ -32,16 +22,16 @@ class Asset {
   static async id(id) {
     if (!isNaN(id)) id = `1.3.${id}`;
 
-    let Asset = Object.keys(this.map).find(symbol => this.map[symbol].id === id);
+    let asset = Object.keys(this.map).find(symbol => this.map[symbol].id == id);
 
-    if (Asset) return this.map[Asset];
+    if (asset) return this.map[asset];
 
-    Asset = (await database.getAssets([id]))[0];
+    asset = (await database.getAssets([id]))[0];
 
-    if (!Asset) throw new Error(`Not found asset by id ${id}!`);
+    if (!asset) throw new Error(`Not found asset by id ${id}!`);
 
-    this.map[Asset.symbol] = new this(Asset);
-    return this.map[Asset.symbol];
+    this.map[asset.symbol] = new this(asset);
+    return this.map[asset.symbol];
   }
 
   static async fromParam(param) {
@@ -79,5 +69,5 @@ export default new Proxy(Asset, {
     return /^1\.3\.\d+$/.test(name) || !isNaN(name)
       ? obj.id(name)
       : obj.getAsset(name);
-  }
+  },
 });
