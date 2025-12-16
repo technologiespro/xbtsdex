@@ -338,6 +338,17 @@ class BitShares {
     return database.subscribeToMarket(callback, baseId, quoteId);
   }
 
+  static async subscribeToTicker(tickerId, callback) {
+    // Подписка на конкретный тикер (mto_id) для получения обновлений рынка в реальном времени
+    // mto_id - это объект вида "5.2.x" который содержит данные тикера
+    return database.subscribeToObject(tickerId, callback);
+  }
+
+  static async unsubscribeFromTicker(tickerId, callback) {
+    // Отписка от конкретного тикера
+    return database.unsubscribeFromObject(tickerId, callback);
+  }
+
   static async unsubscribeFromMarket(callback, baseId, quoteId) {
     // xbtsdex не предоставляет прямой метод отписки от конкретного рынка
     console.warn("unsubscribeFromMarket: xbtsdex не предоставляет прямой метод отписки от рынка. Используйте альтернативную реализацию.");
