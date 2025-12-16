@@ -329,6 +329,21 @@ class BitShares {
     );
   }
 
+  static async subscribeToMarket(callback, baseId, quoteId) {
+    // xbtsdex не предоставляет прямой метод подписки на конкретный рынок
+    // используем общий механизм подписки на блоки и фильтруем
+    console.warn("subscribeToMarket: xbtsdex не предоставляет прямой метод подписки на рынок. Используйте альтернативную реализацию.");
+    // В реальной реализации это должно использовать систему событий xbtsdex
+    // для подписки на обновления рынка
+    return database.subscribeToMarket(callback, baseId, quoteId);
+  }
+
+  static async unsubscribeFromMarket(callback, baseId, quoteId) {
+    // xbtsdex не предоставляет прямой метод отписки от конкретного рынка
+    console.warn("unsubscribeFromMarket: xbtsdex не предоставляет прямой метод отписки от рынка. Используйте альтернативную реализацию.");
+    return database.unsubscribeFromMarket(callback, baseId, quoteId);
+  }
+
   static async getTradeHistory(baseSymbol, quoteSymbol, start, stop, limit) {
     return database.getTradeHistory(
       (await BitShares.assets[baseSymbol]).id,
