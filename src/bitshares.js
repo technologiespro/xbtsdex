@@ -299,6 +299,24 @@ class BitShares {
     return this.db.get_objects(objectIds, false);
   }
 
+  // Метод для подписки на все транзакции в реальном времени
+  static async setPendingTransactionCallback(callback) {
+    // Используем метод API для подписки на ожидающие транзакции
+    return this.db.set_pending_transaction_callback(callback);
+  }
+
+    // Метод для подписки на конкретный рынок (обновления ордеров для пары активов)
+  static async subscribeToMarket(callback, baseId, quoteId) {
+    // Используем метод API для подписки на конкретный рынок
+    return this.db.subscribe_to_market(callback, baseId, quoteId);
+  }
+
+  // Метод для отписки от конкретного рынка
+  static async unsubscribeFromMarket(callback, baseId, quoteId) {
+    // Используем метод API для отписки от конкретного рынка
+    return this.db.unsubscribe_from_market(callback, baseId, quoteId);
+  }
+
   static lookupAccounts(startChar, limit = 10) {
     return this.db.lookup_accounts(startChar, limit);
   }
@@ -341,22 +359,9 @@ class BitShares {
     );
   }
 
-  static async subscribeToMarket(callback, baseId, quoteId) {
-    // xbtsdex не предоставляет прямой метод подписки на конкретный рынок
-    // используем общий механизм подписки на блоки и фильтруем
-    console.warn("subscribeToMarket: xbtsdex не предоставляет прямой метод подписки на рынок. Используйте альтернативную реализацию.");
-    // В реальной реализации это должно использовать систему событий xbtsdex
-    // для подписки на обновления рынка
-    return database.subscribeToMarket(callback, baseId, quoteId);
-  }
-
-  // Для получения обновлений тикеров используем общий механизм подписки
-  // через set_subscribe_callback и фильтрацию обновлений в блоках
-
-  static async unsubscribeFromMarket(callback, baseId, quoteId) {
-    // xbtsdex не предоставляет прямой метод отписки от конкретного рынка
-    console.warn("unsubscribeFromMarket: xbtsdex не предоставляет прямой метод отписки от рынка. Используйте альтернативную реализацию.");
-    return database.unsubscribeFromMarket(callback, baseId, quoteId);
+  // Метод для подписки на обновления объектов (альтернатива set_subscribe_callback)
+  static setSubscribeCallback(callback, notifyRemoveCreate = false) {
+    return database.set_subscribe_callback(callback, notifyRemoveCreate);
   }
 
   static async getTradeHistory(baseSymbol, quoteSymbol, start, stop, limit) {
