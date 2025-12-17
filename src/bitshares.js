@@ -293,6 +293,11 @@ class BitShares {
     return this.db.get_objects(objectIds, true);
   }
 
+  // Метод для подписки на обновления объектов (альтернатива set_subscribe_callback)
+  static setSubscribeCallback(callback, notifyRemoveCreate = false) {
+    return this.db.set_subscribe_callback(callback, notifyRemoveCreate);
+  }
+
   // Метод для отписки от обновлений конкретных объектов
   static async unsubscribeFromObjects(objectIds) {
     // Вызываем get_objects с параметром subscribe=false, чтобы отписаться от объектов
@@ -357,11 +362,6 @@ class BitShares {
       start,
       stop
     );
-  }
-
-  // Метод для подписки на обновления объектов (альтернатива set_subscribe_callback)
-  static setSubscribeCallback(callback, notifyRemoveCreate = false) {
-    return database.set_subscribe_callback(callback, notifyRemoveCreate);
   }
 
   static async getTradeHistory(baseSymbol, quoteSymbol, start, stop, limit) {
