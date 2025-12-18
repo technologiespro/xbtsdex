@@ -10,6 +10,8 @@ import { LZMA as lzma } from "lzma/src/lzma-d-min";
 import BigNumber from "bignumber.js";
 import { PrivateKey, PublicKey, Aes, key } from "btsdex-ecc";
 import { setAddressPrefix } from "btsdex-ecc";
+import { pbkdf2Sync } from 'crypto-browserify';
+import { Buffer } from 'buffer';
 import {
   connect,
   disconnect,
@@ -100,16 +102,28 @@ class BitShares {
       throw new Error("Password must have at least 12 characters");
     }
 
+    const KEY_DERIVATION_ITERATIONS = 40000;
+    const KEY_DERIVATION_DIGEST = 'sha512';
+
     let privKeys = {};
     let pubKeys = {};
 
+    console.log("Starting key generation with PBKDF2 and 40000 iterations...");
+
     ([...new Set(roles)] || ["active", "owner", "memo"]).forEach(role => {
-      privKeys[role] = PrivateKey.fromSeed(
-        key.normalize_brainKey(`${accountName}${role}${password}`)
-      );
-      pubKeys[role] = privKeys[role].toPublicKey().toString(prefix);
+        const salt = key.normalize_brainKey(`${accountName}${role}`);
+        
+        console.time(`PBKDF2 for role '${role}'`);
+        const derivedKey = pbkdf2Sync(password, salt, KEY_DERIVATION_ITERATIONS, 32, KEY_DERIVATION_DIGEST);
+        console.timeEnd(`PBKDF2 for role '${role}'`);
+        
+        const privateKey = PrivateKey.fromBuffer(derivedKey);
+        
+        privKeys[role] = privateKey;
+        pubKeys[role] = privateKey.toPublicKey().toString(prefix);
     });
 
+    console.log("Key generation completed.");
     return { privKeys, pubKeys };
   }
 

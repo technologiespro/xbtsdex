@@ -1,10 +1,10 @@
 {
   "name": "xbtsdex",
-  "version": "0.7.11",
+  "version": "0.7.13",
   "description": "Package for work with BitShares DEX",
   "main": "lib",
   "bin": {
-    "xbtsdex": "./cli.js"
+    "xbtsdex": "cli.js"
   },
   "scripts": {
     "dev": "nodemon --exec yarn build --watch src",
@@ -18,7 +18,8 @@
     "style-all": "prettier --check src packages/api/src packages/ecc/src packages/serializer/src"
   },
   "keywords": [
-    "bitshares"
+    "bitshares",
+    "xbts"
   ],
   "author": "scientistnik",
   "license": "MIT",
@@ -30,10 +31,12 @@
     "assert": "^1.5.0",
     "bigi": "^1.4.2",
     "bignumber.js": "^7.2.1",
-    "btsdex-api": "file:packages/api",
+    "btsdex-api": "^0.7.2",
     "btsdex-ecc": "^0.7.0",
     "btsdex-serializer": "^0.7.9",
+    "buffer": "^6.0.3",
     "bytebuffer": "^5.0.1",
+    "crypto-browserify": "^3.12.1",
     "lzma": "^2.3.2",
     "safe-buffer": "^5.2.0"
   },
