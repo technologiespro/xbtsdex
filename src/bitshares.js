@@ -115,6 +115,14 @@ class BitShares {
     return { privKeys, pubKeys };
   }
 
+  /**
+   * The new key generation format is experimental and is not compatible with older versions. For compatibility, you must use generateKeys().
+    * @param accountName
+   * @param password
+   * @param roles
+   * @param prefix
+   * @returns {{privKeys: {}, pubKeys: {}}}
+   */
   static generateKeysPBKDF2(accountName, password, roles, prefix) {
     if (!accountName || !password) {
       throw new Error("Account name or password required");
