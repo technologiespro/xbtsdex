@@ -394,93 +394,208 @@ class BitShares {
     return this.db.get_proposed_transactions(accountId);
   }
 
+  /**
+   * Get short orders
+   * @param baseId
+   * @param quoteId
+   * @param limit
+   * @returns {*}
+   */
   static getShortOrders(baseId, quoteId, limit = 100) {
     return this.db.get_short_orders(baseId, quoteId, limit);
   }
 
+  /**
+   * Get liquidity pools
+   * @param baseId
+   * @param quoteId
+   * @param limit
+   * @returns {*}
+   */
   static getLiquidityPools(baseId, quoteId, limit = 100) {
     return this.db.get_liquidity_pools(baseId, quoteId, limit);
   }
 
+  /**
+   * Get worker proposals
+   * @returns {*}
+   */
   static getWorkerProposals() {
     return this.db.get_worker_proposals();
   }
-    
+
+  /**
+   * Get budget records
+   * @returns {*}
+   */
   static getBudgetRecords() {
     return this.db.get_budget_records();
   }
 
+  /**
+   * Get account balances
+   * @param accountId
+   * @param assets
+   * @returns {*}
+   */
   static getAccountBalances(accountId, assets = []) {
     return this.db.get_account_balances(accountId, assets);
   }
 
+  /**
+   * Get full accounts
+   * @param accounts
+   * @param subscribe
+   * @returns {*}
+   */
   static getFullAccounts(accounts, subscribe = true) {
     return this.db.get_full_accounts(accounts, subscribe);
   }
 
+  /**
+   * Get accounts
+   * @param accountIds
+   * @returns {*}
+   */
   static getAccounts(accountIds) {
     return this.db.get_accounts(accountIds);
   }
 
+  /**
+   * Get assets
+   * @param assetIds
+   * @returns {*}
+   */
   static getAssets(assetIds) {
     return this.db.get_assets(assetIds);
   }
 
+  /**
+   * Get objects
+   * @param objectIds
+   * @returns {*}
+   */
   static getObjects(objectIds) {
     return this.db.get_objects(objectIds);
   }
 
-  // Метод для подписки на обновления конкретных объектов (например, mto_id тикеров)
+  /**
+   * Subscribe to objects
+   * @param objectIds
+   * @returns {Promise<*>}
+   */
   static async subscribeToObjects(objectIds) {
     // Вызываем get_objects с параметром subscribe=true, чтобы подписаться на объекты
     return this.db.get_objects(objectIds, true);
   }
 
   // Метод для подписки на обновления объектов (альтернатива set_subscribe_callback)
+  /**
+   * Set subscribe callback
+   * @param callback
+   * @param notifyRemoveCreate
+   * @returns {*}
+   */
   static setSubscribeCallback(callback, notifyRemoveCreate = false) {
     return this.db.set_subscribe_callback(callback, notifyRemoveCreate);
   }
 
   // Метод для отписки от обновлений конкретных объектов
+  /**
+   * Unsubscribe from objects
+   * @param objectIds
+   * @returns {Promise<*>}
+   */
   static async unsubscribeFromObjects(objectIds) {
     // Вызываем get_objects с параметром subscribe=false, чтобы отписаться от объектов
     return this.db.get_objects(objectIds, false);
   }
 
   // Метод для подписки на все транзакции в реальном времени
+  /**
+   * Set pending transaction callback
+   * @param callback
+   * @returns {Promise<*>}
+   */
   static async setPendingTransactionCallback(callback) {
     // Используем метод API для подписки на ожидающие транзакции
     return this.db.set_pending_transaction_callback(callback);
   }
 
     // Метод для подписки на конкретный рынок (обновления ордеров для пары активов)
+  /**
+   * Subscribe to market
+   * @param callback
+   * @param baseId
+   * @param quoteId
+   * @returns {Promise<*>}
+   */
   static async subscribeToMarket(callback, baseId, quoteId) {
     // Используем метод API для подписки на конкретный рынок
     return this.db.subscribe_to_market(callback, baseId, quoteId);
   }
 
   // Метод для отписки от конкретного рынка
+  /**
+   * Unsubscribe from market
+   * @param callback
+   * @param baseId
+   * @param quoteId
+   * @returns {Promise<*>}
+   */
   static async unsubscribeFromMarket(callback, baseId, quoteId) {
     // Используем метод API для отписки от конкретного рынка
     return this.db.unsubscribe_from_market(callback, baseId, quoteId);
   }
 
+  /**
+   * Lookup accounts
+   * @param startChar
+   * @param limit
+   * @returns {*}
+   */
   static lookupAccounts(startChar, limit = 10) {
     return this.db.lookup_accounts(startChar, limit);
   }
 
+  /**
+   * Lookup asset symbols
+   * @param symbols
+   * @returns {*}
+   */
   static lookupAssetSymbols(symbols) {
     return this.db.lookup_asset_symbols(symbols);
   }
 
+  /**
+   * Get account history
+   * @param accountId
+   * @param stop
+   * @param limit
+   * @param start
+   * @returns {*}
+   */
   static getAccountHistory(accountId, stop = "1.11.0", limit = 100, start = "1.11.0") {
     return this.history.get_account_history(accountId, stop, limit, start);
   }
 
+  /**
+   * Get node list
+   * @returns {[{url: string, region: string, country: string, location: string, operator: string, contact: string},{url: string, region: string, country: string, location: string, operator: string, contact: string},{url: string, region: string, country: string, location: string, operator: string, contact: string},{url: string, region: string, country: string, location: string, operator: string, contact: string},{url: string, location: string}]}
+   */
   static getNodeList() {
     return WS_NODE_LIST;
   }
 
+  /**
+   * Get trade history
+   * @param quoteSymbol
+   * @param baseSymbol
+   * @param startDate
+   * @param stopDate
+   * @param bucketSeconds
+   * @returns {Promise<*|void>}
+   */
   static async tradeHistory(
     quoteSymbol,
     baseSymbol,
@@ -497,6 +612,15 @@ class BitShares {
     );
   }
 
+  /**
+   * get Market History
+   * @param baseId
+   * @param quoteId
+   * @param bucketSize
+   * @param start
+   * @param stop
+   * @returns {Promise<*|void>}
+   */
   static async getMarketHistory(baseId, quoteId, bucketSize, start, stop) {
     return history.getMarketHistory(
       baseId,
@@ -507,6 +631,15 @@ class BitShares {
     );
   }
 
+  /**
+   * Get trade history
+   * @param baseSymbol
+   * @param quoteSymbol
+   * @param start
+   * @param stop
+   * @param limit
+   * @returns {Promise<*>}
+   */
   static async getTradeHistory(baseSymbol, quoteSymbol, start, stop, limit) {
     return database.getTradeHistory(
       (await BitShares.assets[baseSymbol]).id,
@@ -517,6 +650,12 @@ class BitShares {
     );
   }
 
+  /**
+   * Constructor
+   * @param accountName
+   * @param activeKey
+   * @param feeSymbol
+   */
   constructor(accountName, activeKey, feeSymbol = BitShares.chain.coreAsset) {
     if (activeKey) this.activeKey = PrivateKey.fromWif(activeKey);
 
@@ -532,25 +671,50 @@ class BitShares {
     });
   }
 
+  /**
+   * Set fee asset
+   * @param feeSymbol
+   * @returns {Promise<void>}
+   */
   setFeeAsset = async feeSymbol => {
     await this.initPromise;
     this.feeAsset = await BitShares.assets[feeSymbol];
   };
 
+  /**
+   * Set memo key
+   * @param memoKey
+   */
   setMemoKey = memoKey => {
     this.memoKey = PrivateKey.fromWif(memoKey);
   };
 
+  /**
+   * Broadcast transaction
+   * @param tx
+   * @param keys
+   * @returns {*}
+   */
   broadcast = (tx, keys = [this.activeKey]) => {
     return tx.broadcast(keys);
   };
 
+  /**
+   * Send operation
+   * @param operation
+   * @returns {Promise<*>}
+   */
   sendOperation = operation => {
     let tx = this.newTx();
     tx.add(operation);
     return tx.broadcast();
   };
 
+  /**
+   * Get balances
+   * @param args
+   * @returns {Promise<Promise<Awaited<unknown>[]> | Promise<{[p: string]: Awaited<*>, [p: number]: Awaited<*>, [p: symbol]: Awaited<*>}>>}
+   */
   balances = async (...args) => {
     await this.initPromise;
 
@@ -563,6 +727,17 @@ class BitShares {
     );
   };
 
+  /**
+   * Create limit order operation
+   * @param sellSymbol
+   * @param sellAmount
+   * @param buySymbol
+   * @param buyAmount
+   * @param fill_or_kill
+   * @param expiration
+   * @param extensions
+   * @returns {Promise<{limit_order_create: {fee: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, seller: *, amount_to_sell: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, min_to_receive: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, fill_or_kill: boolean, expiration: string, extensions: *[]}}>}
+   */
   limitOrderCreateOperation = async (
     sellSymbol,
     sellAmount,
@@ -591,6 +766,11 @@ class BitShares {
     return { limit_order_create: params };
   };
 
+  /**
+   * Create limit order
+   * @param args
+   * @returns {Promise<*>}
+   */
   limitOrderCreate = async (...args) => {
     let tx = await this.sendOperation(
       await this.limitOrderCreateOperation(...args)
@@ -598,6 +778,16 @@ class BitShares {
     return (await database.getObjects([tx[0].trx.operation_results[0][1]]))[0];
   };
 
+  /**
+   * Buy operation
+   * @param buySymbol
+   * @param baseSymbol
+   * @param amount
+   * @param price
+   * @param fill_or_kill
+   * @param expire
+   * @returns {Promise<{limit_order_create: {fee: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, seller: *, amount_to_sell: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, min_to_receive: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, expiration: string, fill_or_kill: boolean, extensions: *[]}}>}
+   */
   buyOperation = async (
     buySymbol,
     baseSymbol,
@@ -637,6 +827,16 @@ class BitShares {
     return (await database.getObjects([tx[0].trx.operation_results[0][1]]))[0];
   };
 
+  /**
+   * Sell Operation
+   * @param sellSymbol
+   * @param baseSymbol
+   * @param amount
+   * @param price
+   * @param fill_or_kill
+   * @param expire
+   * @returns {Promise<{limit_order_create: {fee: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, seller: *, amount_to_sell: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, min_to_receive: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, expiration: string, fill_or_kill: boolean, extensions: *[]}}>}
+   */
   sellOperation = async (
     sellSymbol,
     baseSymbol,
@@ -676,6 +876,10 @@ class BitShares {
     return (await database.getObjects([tx[0].trx.operation_results[0][1]]))[0];
   };
 
+  /**
+   * Get limit orders for account
+   * @returns {Promise<*>}
+   */
   orders = async () => {
     await this.initPromise;
     return (await database.getFullAccounts([this.account.id], false))[0][1]
@@ -687,6 +891,11 @@ class BitShares {
     return (await database.getObjects([id]))[0];
   };
 
+  /**
+   * Cancel order operation
+   * @param id
+   * @returns {Promise<{limit_order_cancel: {fee: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, fee_paying_account: *, order: *, extensions: *[]}}>}
+   */
   cancelOrderOperation = async id => {
     await this.initPromise;
 
@@ -704,6 +913,12 @@ class BitShares {
     return this.sendOperation(await this.cancelOrderOperation(...args));
   };
 
+  /**
+   * memo
+   * @param toName
+   * @param message
+   * @returns {Promise<{from: *, to: *, nonce: string, message: *}>}
+   */
   memo = async (toName, message) => {
     if (!this.memoKey) throw new Error("Not set memoKey!");
 
@@ -723,6 +938,11 @@ class BitShares {
     };
   };
 
+  /**
+   * Memo Decode
+   * @param memos
+   * @returns {*}
+   */
   memoDecode = memos => {
     if (!this.memoKey) throw new Error("Not set memoKey!");
 
@@ -734,6 +954,14 @@ class BitShares {
     ).toString("utf-8");
   };
 
+  /**
+   * Transfer operation
+   * @param toName
+   * @param assetSymbol
+   * @param amount
+   * @param memo
+   * @returns {Promise<{transfer: {fee: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, from: *, to: *, amount: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, extensions: *[]}}>}
+   */
   transferOperation = async (toName, assetSymbol, amount, memo) => {
     await this.initPromise;
 
@@ -761,6 +989,14 @@ class BitShares {
     return this.sendOperation(await this.transferOperation(...args));
   };
 
+  /**
+   * Asset Issue operation
+   * @param toName
+   * @param assetSymbol
+   * @param amount
+   * @param memo
+   * @returns {Promise<{asset_issue: {fee: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, issuer: *, asset_to_issue: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, issue_to_account: *}}>}
+   */
   assetIssueOperation = async (toName, assetSymbol, amount, memo) => {
     await this.initPromise;
 
@@ -787,6 +1023,12 @@ class BitShares {
     return this.sendOperation(await this.assetIssueOperation(...args));
   };
 
+  /**
+   * Asset Reserve operation
+   * @param assetSymbol
+   * @param amount
+   * @returns {Promise<{asset_reserve: {fee: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, amount_to_reserve: {amount: number, asset_id: *}|{amount: number, asset_id: *}|*, payer: *, extensions: *[]}}>}
+   */
   assetReserveOperation = async (assetSymbol, amount) => {
     await this.initPromise;
 
