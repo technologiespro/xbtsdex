@@ -487,6 +487,7 @@ async function startAfterConnected() {
 
 ## Documentation
 For more information, look [wiki](https://github.com/technologiespro/xbtsdex/wiki) or in `docs`-folder.
+For donate: BitShares account `technologiesbro`. 
 
 ## License
 
