@@ -1,3 +1,8 @@
 v0.7.13
-- **Security Enhancement:** Implemented key stretching (PBKDF2 with 40,000 iterations using SHA512) for password-derived keys in `generateKeys` function, significantly improving resistance against brute-force attacks.
+- **Experimental Security Enhancement:** Implemented key stretching (PBKDF2 with 40,000 iterations using SHA512) for password-derived keys in `generateKeysPBKDF2` function, significantly improving resistance against brute-force attacks.
+- - **Feature:** Added all methods from `bitshares.js` to the class interface. This provides a comprehensive API for interacting with the BitShares blockchain.
+- **Added Static Methods:**
+    - `connect`, `disconnect`, `reconnect`, `generateKeys`, `generateKeysPBKDF2`, `login`, `loginFromFile`, `ticker`, `getDynamicGlobalProperties`, `getGlobalProperties`, `getBlock`, `getOrderBook`, `getLimitOrders`, `getSettleOrders`, `getMarginPositions`, `getCollateralBids`, `getWitnesses`, `getCommitteeMembers`, `getVestingBalances`, `getWithdrawPermissionsByAccount`, `getProposedTransactions`, `getShortOrders`, `getLiquidityPools`, `getWorkerProposals`, `getBudgetRecords`, `getAccountBalances`, `getFullAccounts`, `getAccounts`, `getAssets`, `getObjects`, `subscribeToObjects`, `setSubscribeCallback`, `unsubscribeFromObjects`, `setPendingTransactionCallback`, `subscribeToMarket`, `unsubscribeFromMarket`, `lookupAccounts`, `lookupAssetSymbols`, `getAccountHistory`, `getNodeList`, `tradeHistory`, `getMarketHistory`, `getTradeHistory`.
+- **Added Instance Methods:**
+    - `constructor`, `newTx`, `setFeeAsset`, `setMemoKey`, `broadcast`, `sendOperation`, `balances`, `limitOrderCreateOperation`, `limitOrderCreate`, `buyOperation`, `buy`, `sellOperation`, `sell`, `orders`, `getOrder`, `cancelOrderOperation`, `cancelOrder`, `memo`, `memoDecode`, `transferOperation`, `transfer`, `assetIssueOperation`, `assetIssue`, `assetReserveOperation`, `assetReserve`.
 
