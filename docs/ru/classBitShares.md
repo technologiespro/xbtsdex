@@ -1986,3 +1986,93 @@ let account = new BitShares('holder', 'privateKey');
 let result = await account.assetReserve('MYASSET', 100);
 console.log(result);
 ```
+
+### buy()
+Создает ордер на покупку в блокчейне.
+
+Сигнатура:
+```js
+async buy(buySymbol, baseSymbol, amount, price, fill_or_kill = false, expire = getExpireDate())
+```
+
+#### Параметры
+- `buySymbol` - символ покупаемого актива
+- `baseSymbol` - символ базового (ценового) актива
+- `amount` - количество покупаемого актива
+- `price` - цена покупки (в базовом активе за единицу покупаемого актива)
+- `fill_or_kill` - флаг "исполнить полностью или отменить" (по умолчанию: false)
+- `expire` - дата истечения ордера (по умолчанию: через 5 лет)
+
+#### Возвращает
+Объект созданного ордера покупки.
+
+#### Пример
+```js
+const BitShares = require('xbtsdex');
+
+await BitShares.connect();
+
+let account = new BitShares('trade-bot', 'privateKey');
+
+// Купить 2 BTC по цене 30000 BTS за BTC
+let order = await account.buy('BTC', 'BTS', 2, 30000);
+console.log(order);
+```
+
+### sell()
+Создает ордер на продажу в блокчейне.
+
+Сигнатура:
+```js
+async sell(sellSymbol, baseSymbol, amount, price, fill_or_kill = false, expire = getExpireDate())
+```
+
+#### Параметры
+- `sellSymbol` - символ продаваемого актива
+- `baseSymbol` - символ базового (ценового) актива
+- `amount` - количество продаваемого актива
+- `price` - цена продажи (в базовом активе за единицу продаваемого актива)
+- `fill_or_kill` - флаг "исполнить полностью или отменить" (по умолчанию: false)
+- `expire` - дата истечения ордера (по умолчанию: через 5 лет)
+
+#### Возвращает
+Объект созданного ордера продажи.
+
+#### Пример
+```js
+const BitShares = require('xbtsdex');
+
+await BitShares.connect();
+
+let account = new BitShares('trade-bot', 'privateKey');
+
+// Продать 10 BTS по цене 0.3 USD за BTS
+let order = await account.sell('BTS', 'USD', 10, 0.3);
+console.log(order);
+```
+
+### getOrder()
+Получает информацию об ордере по его ID.
+
+Сигнатура:
+```js
+async getOrder(id)
+```
+
+#### Параметры
+- `id` - ID ордера
+
+#### Возвращает
+Объект с информацией об ордере.
+
+#### Пример
+```js
+const BitShares = require('xbtsdex');
+
+await BitShares.connect();
+
+let account = new BitShares('trade-bot', 'privateKey');
+
+let order = await account.getOrder('1.7.12345');
+console.log(order);
+```
