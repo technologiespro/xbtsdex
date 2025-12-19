@@ -94,6 +94,14 @@ class BitShares {
     return BitShares.chain;
   }
 
+  /**
+   * The old key generation format is maintained for compatibility with older versions.
+   * @param accountName
+   * @param password
+   * @param roles
+   * @param prefix
+   * @returns {{privKeys: {}, pubKeys: {}}}
+   */
   static generateKeys(accountName, password, roles, prefix) {
     if (!accountName || !password) {
       throw new Error("Account name or password required");
@@ -156,6 +164,13 @@ class BitShares {
     return { privKeys, pubKeys };
   }
 
+  /**
+   * Login to account
+   * @param accountName
+   * @param password
+   * @param feeSymbol
+   * @returns {Promise<BitShares>}
+   */
   static async login(
     accountName,
     password,
@@ -181,6 +196,14 @@ class BitShares {
     return account;
   }
 
+  /**
+   * Login from backup file
+   * @param buffer
+   * @param password
+   * @param accountName
+   * @param feeSymbol
+   * @returns {Promise<BitShares>}
+   */
   static async loginFromFile(
     buffer,
     password,
@@ -235,6 +258,12 @@ class BitShares {
     return account;
   }
 
+  /**
+   * Get ticker by base and quote symbols
+   * @param baseSymbol
+   * @param quoteSymbol
+   * @returns {Promise<any>}
+   */
   static ticker(baseSymbol, quoteSymbol) {
     return database.getTicker(
       baseSymbol.toUpperCase(),
@@ -242,54 +271,125 @@ class BitShares {
     );
   }
 
+  /**
+   * Get dynamic global properties
+   * @returns {*}
+   */
   static getDynamicGlobalProperties() {
     return this.db.get_dynamic_global_properties();
   }
 
+  /**
+   * Get global properties
+   * @returns {*}
+   */
   static getGlobalProperties() {
     return this.db.get_global_properties();
   }
 
+  /**
+   * Get block by number
+   * @param blockNum
+   * @returns {*}
+   */
   static getBlock(blockNum) {
     return this.db.get_block(blockNum);
   }
 
+  /**
+   * Get order book
+   * @param baseId
+   * @param quoteId
+   * @param limit
+   * @returns {*}
+   */
   static getOrderBook(baseId, quoteId, limit = 50) {
     return this.db.get_order_book(baseId, quoteId, limit);
   }
 
+  /**
+   * Get limit orders
+   * @param baseId
+   * @param quoteId
+   * @param limit
+   * @returns {*}
+   */
   static getLimitOrders(baseId, quoteId, limit = 100) {
     return this.db.get_limit_orders(baseId, quoteId, limit);
   }
 
+  /**
+   * Get settle orders
+   * @param baseId
+   * @param quoteId
+   * @param limit
+   * @returns {*}
+   */
   static getSettleOrders(baseId, quoteId, limit = 100) {
     return this.db.get_settle_orders(baseId, quoteId, limit);
   }
 
+  /**
+   * Get margin positions
+   * @param accountId
+   * @returns {*}
+   */
   static getMarginPositions(accountId) {
     return this.db.get_margin_positions(accountId);
   }
 
+  /**
+   * Get collateral bids
+   * @param baseId
+   * @param quoteId
+   * @param limit
+   * @returns {*}
+   */
   static getCollateralBids(baseId, quoteId, limit = 100) {
     return this.db.get_collateral_bids(baseId, quoteId, limit);
   }
 
+  /**
+   * Get witnesses
+   * @param witnessIds
+   * @returns {*}
+   */
   static getWitnesses(witnessIds) {
     return this.db.get_witnesses(witnessIds);
   }
-    
+
+  /**
+   * Get committee members
+   * @param memberIds
+   * @returns {*}
+   */
   static getCommitteeMembers(memberIds) {
     return this.db.get_committee_members(memberIds);
   }
 
+  /**
+   * Get vesting balances
+   * @param accountId
+   * @returns {*}
+   */
   static getVestingBalances(accountId) {
     return this.db.get_vesting_balances(accountId);
   }
 
+  /**
+   * Get withdraw permissions by account
+   * @param accountId
+   * @returns {*}
+   */
   static getWithdrawPermissionsByAccount(accountId) {
     return this.db.get_withdraw_permissions_by_account(accountId);
   }
 
+  /**
+   * Get proposed transactions
+   * @param accountId
+   * @returns {*}
+   */
   static getProposedTransactions(accountId) {
     return this.db.get_proposed_transactions(accountId);
   }
