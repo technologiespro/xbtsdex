@@ -102,6 +102,27 @@ class BitShares {
       throw new Error("Password must have at least 12 characters");
     }
 
+    let privKeys = {};
+    let pubKeys = {};
+
+    ([...new Set(roles)] || ["active", "owner", "memo"]).forEach(role => {
+      privKeys[role] = PrivateKey.fromSeed(
+        key.normalize_brainKey(`${accountName}${role}${password}`)
+      );
+      pubKeys[role] = privKeys[role].toPublicKey().toString(prefix);
+    });
+
+    return { privKeys, pubKeys };
+  }
+
+  static generateKeysPBKDF2(accountName, password, roles, prefix) {
+    if (!accountName || !password) {
+      throw new Error("Account name or password required");
+    }
+    if (password.length < 12) {
+      throw new Error("Password must have at least 12 characters");
+    }
+
     const KEY_DERIVATION_ITERATIONS = 40000;
     const KEY_DERIVATION_DIGEST = 'sha512';
 
