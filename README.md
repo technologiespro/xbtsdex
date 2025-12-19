@@ -119,6 +119,38 @@ If you want to send tokens with memo and get `acc` from `constructor` (use `new 
 bot.setMemoKey(<privateMemoKey>)
 await bot.transfer("scientistnik", "HONEST.USD", 10, "Thank you for BTSDEX!")
 ```
+
+### Advanced Operations
+
+The library supports many advanced operations beyond the basic ones:
+
+- `buyOperation()` / `buy()` - placing buy orders
+- `sellOperation()` / `sell()` - placing sell orders
+- `limitOrderCreateOperation()` / `limitOrderCreate()` - creating limit orders
+- `cancelOrderOperation()` / `cancelOrder()` - canceling orders
+- `assetIssueOperation()` / `assetIssue()` - issuing assets
+- `assetReserveOperation()` / `assetReserve()` - reserving/burning assets
+- `orders()` - getting account's open orders
+- `balances()` - getting account's balances for specific assets
+- `getOrder()` - getting specific order details
+- `memo()` / `memoDecode()` - encrypting/decrypting memos
+- Many more methods for interacting with the BitShares blockchain
+
+### Key Generation Methods
+
+The library provides two methods for generating account keys:
+
+1. `generateKeys()` - The traditional method using brain key normalization
+2. `generateKeysPBKDF2()` - A more secure method using PBKDF2 with 40,000 iterations
+
+Example of generating keys:
+```js
+// Traditional method
+let keys = BitShares.generateKeys('accountname', 'strongpassword', ['active', 'owner', 'memo']);
+
+// More secure PBKDF2 method
+let secureKeys = BitShares.generateKeysPBKDF2('accountname', 'strongpassword', ['active', 'owner', 'memo']);
+```
 ### Transaction Builder
 
 Each private transaction is considered accepted after being included in the block. Blocks are created every 3 seconds. If we need to perform several operations, their sequential execution can take considerable time. Fortunately, several operations can be included in a single transaction. For this you need to use transaction builder.

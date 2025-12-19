@@ -1,30 +1,114 @@
-__BitShares.accounts__ use for get account object.
+# xbtsdex - Документация для работы с аккаунтами
 
-If you know account name, `BitShares.assets` behave like map:
+## BitShares.accounts
+
+`BitShares.accounts` - это объект, который позволяет получать информацию об аккаунтах в блокчейне BitShares. Он предоставляет удобный способ доступа к информации об аккаунтах по их именам.
+
+### Получение информации об аккаунте
+
+Синтаксис:
 ```js
-let iam = await BitShares.accounts.scientistnik;
-let tradebot = await BitShares.accounts["trade-bot"];
+let account = await BitShares.accounts[accountName];
 ```
 
-See current accounts in map:
+Где `accountName` - это имя аккаунта в строковом формате.
+
+### Параметры
+- `accountName` - имя аккаунта (например, 'scientistnik', 'trade-bot')
+
+### Возвращает
+Объект с информацией об аккаунте, содержащий:
+- `id` - ID аккаунта (например, '1.2.12345')
+- `name` - имя аккаунта
+- `active` - информация об активных ключах
+- `owner` - информация о владельческих ключах  
+- `options` - опции аккаунта, включая `memo_key` (публичный ключ для мемо)
+- `balances` - балансы аккаунта (при использовании с `get_full_accounts`)
+- другие поля в зависимости от запрашиваемой информации
+
+### Примеры
+
+#### Получение информации об одном аккаунте
 ```js
-console.log(BitShares.accounts.map); // {}
-let bts = await BitShares.accounts.scientistnik;
-console.log(BitShares.accounts.map); // { scientistnik: Account {...} }
+const BitShares = require("xbtsdex");
+
+start()
+async function start() {
+  await BitShares.connect();
+
+  // Получение информации об аккаунте
+  let account = await BitShares.accounts.scientistnik;
+  console.log(account);
+  
+  // Или с использованием строкового индекса
+  let account2 = await BitShares.accounts['trade-bot'];
+  console.log(account2.id); // '1.2.12345'
+  console.log(account2.options.memo_key); // публичный ключ мемо
+}
 ```
-If you want get by id:
+
+#### Получение информации о нескольких аккаунтах
 ```js
-let scientistnik = await BitShares.accounts.id("1.2.440272");
+const BitShares = require("xbtsdex");
+
+start()
+async function start() {
+  await BitShares.connect();
+
+  // Получение информации о нескольких аккаунтах
+  let accounts = await Promise.all([
+    BitShares.accounts.scientistnik,
+    BitShares.accounts['trade-bot'],
+    BitShares.accounts['another-account']
+  ]);
+
+  console.log(accounts);
+}
 ```
-Each Account have `update()` method to update account data:
+
+#### Использование информации об аккаунте
 ```js
-await scientistnik.update();
+const BitShares = require("xbtsdex");
+
+start()
+async function start() {
+  await BitShares.connect();
+
+  let account = await BitShares.accounts['trade-bot'];
+  
+  // Использование ID аккаунта для других операций
+  console.log('ID аккаунта:', account.id);
+  
+  // Проверка публичного ключа мемо
+  console.log('Ключ мемо:', account.options.memo_key);
+  
+  // Проверка активных ключей
+  console.log('Активные ключи:', account.active.key_auths);
+}
 ```
-For update all account in current map:
+
+### Пример использования с экземпляром аккаунта
 ```js
-await BitShares.accounts.update();
-```
-If you want get account have reserve name ('id' or 'update'):
-```js
-let acc = BitShares.accounts.getAccount('update');
+const BitShares = require("xbtsdex");
+
+start()
+async function start() {
+  await BitShares.connect();
+
+  // Создание экземпляра аккаунта
+  let bot = new BitShares('trade-bot', 'privateActiveKey');
+  
+  // Получение информации об аккаунте через статический метод
+  let accountInfo = await BitShares.accounts['trade-bot'];
+  
+  // Сравнение публичного ключа из информации об аккаунте с сгенерированным из пароля
+  let activeKey = BitShares.PrivateKey.fromSeed('trade-botactivepassword');
+  let generatedPubKey = activeKey.toPublicKey().toString();
+  
+  if (generatedPubKey === accountInfo.active.key_auths[0][0]) {
+    console.log('Ключи совпадают, пароли соответствуют');
+  } else {
+    console.log('Ключи не совпадают, неверная пара логин/пароль');
+  }
+}
 ```
