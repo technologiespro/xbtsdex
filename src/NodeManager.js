@@ -1,13 +1,13 @@
 /**
- * @file Менеджер для работы с нодами BitShares.
+ * @file Manager for working with BitShares nodes.
  * @copyright 2025-2025, @Techno
  */
 
 /**
- * Проверяет доступность и измеряет пинг для одной ноды.
- * @param {string} url - Адрес WebSocket ноды.
- * @param {number} timeout - Таймаут для проверки в миллисекундах.
- * @returns {Promise<{url: string, ping: number | null}>} - Объект с результатом проверки.
+ * Checks availability and measures ping for a single node.
+ * @param {string} url - WebSocket node address.
+ * @param {number} timeout - Timeout for the check in milliseconds.
+ * @returns {Promise<{url: string, ping: number | null}>} - Object with check result.
  */
 function checkNode(url, timeout = 5000) {
   return new Promise((resolve) => {
@@ -17,8 +17,8 @@ function checkNode(url, timeout = 5000) {
     try {
       ws = new WebSocket(url);
     } catch (e) {
-      // Ошибка может возникнуть, если URL некорректен
-      console.warn(`[NodeManager] Ошибка создания WebSocket для ${url}:`, e);
+      // Error may occur if URL is invalid
+      console.warn(`[NodeManager] Error creating WebSocket for ${url}:`, e);
       resolve({ url, ping: null });
       return;
     }
@@ -46,12 +46,12 @@ function checkNode(url, timeout = 5000) {
 }
 
 /**
- * Проверяет список нод, сортирует их по пингу и возвращает полный результат.
- * @param {Array<{url: string, location: string, isPersonal?: boolean}>} nodes - Массив объектов нод.
+ * Checks a list of nodes, sorts them by ping, and returns the complete result.
+ * @param {Array<{url: string, location: string, isPersonal?: boolean}>} nodes - Array of node objects.
  * @returns {Promise<Array<{url: string, location: string, ping: number | null, isPersonal?: boolean}>>}
  */
 async function checkNodes(nodes) {
-  console.log(`[NodeManager] Начинаю проверку ${nodes.length} нод.`);
+  console.log(`[NodeManager] Starting check of ${nodes.length} nodes.`);
   const results = await Promise.all(
     nodes.map(node => checkNode(node.url))
   );
@@ -63,8 +63,8 @@ async function checkNodes(nodes) {
       ping: result ? result.ping : null,
     };
   });
-  
-  // Сортировка: рабочие ноды с наименьшим пингом в начале, потом нерабочие.
+
+  // Sorting: working nodes with lowest ping first, then non-working.
   checkedNodes.sort((a, b) => {
     if (a.ping === null && b.ping === null) return 0;
     if (a.ping === null) return 1;
@@ -72,7 +72,7 @@ async function checkNodes(nodes) {
     return a.ping - b.ping;
   });
 
-  console.log('[NodeManager] Проверка нод завершена.');
+  console.log('[NodeManager] Node check completed.');
   return checkedNodes;
 }
 
