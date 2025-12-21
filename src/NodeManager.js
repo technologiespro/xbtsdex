@@ -25,6 +25,7 @@ function checkNode(url, timeout = 5000) {
 
     const timer = setTimeout(() => {
       if (ws.readyState !== WebSocket.OPEN) {
+        console.warn(`[NodeManager] Timeout checking node: ${url}`);
         ws.close();
         resolve({ url, ping: null });
       }
@@ -38,6 +39,7 @@ function checkNode(url, timeout = 5000) {
     };
 
     ws.onerror = () => {
+      console.warn(`[NodeManager] Node unavailable or connection failed: ${url}`);
       clearTimeout(timer);
       ws.close();
       resolve({ url, ping: null });
